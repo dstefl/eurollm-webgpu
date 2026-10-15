@@ -1,7 +1,7 @@
 # Running EuroLLM in the browser: WebGPU conversion and lessons learned
 
-Publication draft, 15 October 2026. Add the verified demo/source links and
-final acceptance evidence before posting. This is a practical engineering
+Publication draft, 15 October 2026. This document has not been posted to a
+publication platform. Verify the linked deployment before posting. This is a practical engineering
 report, not a claim of model novelty or an official UTTER announcement.
 
 EuroLLM is a European multilingual model family from the UTTER project. I
@@ -61,9 +61,11 @@ can go uncounted. These figures therefore do not establish organic adoption.
 
 ## Reproduce and contribute
 
-Final source/demo links and a concise acceptance table belong here before
-publication. Include both successes and limitations with exact runtime,
-artifact revision and hardware scope. Toolkit code uses Apache 2.0; source
+[Try the browser demo](https://dstefl.github.io/eurollm-webgpu/),
+[read or reuse the source](https://github.com/dstefl/eurollm-webgpu), and
+[review the recorded compatibility checks](compatibility-2026-10-15.md).
+The checks include the1.7B instruction failure as well as successful
+JSON and lifecycle controls, with exact runtime and single-machine scope. Toolkit code uses Apache 2.0; source
 models and dependencies retain their own licenses and attribution.
 
 Useful contributions include independently reproduced runs, browser/GPU
