@@ -41,7 +41,7 @@ library_name: mlc-llm
 
 A q4f16_1 conversion of [utter-project/EuroLLM-9B-Instruct-2512](https://huggingface.co/utter-project/EuroLLM-9B-Instruct-2512) for browser-local inference with [WebLLM](https://github.com/mlc-ai/web-llm). This is a quantized conversion, not a fine-tune. No claim of being the first or only public conversion is made.
 
-**Runnable source, setup and build recipe:** [dstefl/eurollm-webgpu](https://github.com/dstefl/eurollm-webgpu). Apache-2.0, no account required to read or clone. The demo source downloads model assets only after the user explicitly chooses Prepare. A hosted public demo is not yet enabled.
+**Runnable source, setup and build recipe:** [dstefl/eurollm-webgpu](https://github.com/dstefl/eurollm-webgpu). Apache-2.0, no account required to read or clone. The demo source downloads model assets only after the user explicitly chooses Prepare. Try the [no-account browser demo](https://dstefl.github.io/eurollm-webgpu/) or read the [recorded compatibility checks](https://github.com/dstefl/eurollm-webgpu/blob/main/docs/compatibility-2026-10-15.md).
 
 ## Use locally
 

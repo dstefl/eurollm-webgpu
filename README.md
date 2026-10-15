@@ -5,8 +5,10 @@ A small browser demo and reusable tools for the public **EuroLLM 1.7B** and
 or inference server. After you choose Prepare, model files download from
 Hugging Face and prompts run locally in your browser.
 
-**Status:** public source with local verification. The hosted
-demo and detailed compatibility report await publication approval. Known
+**[Try the browser demo](https://dstefl.github.io/eurollm-webgpu/)** ·
+[Recorded compatibility checks](docs/compatibility-2026-10-15.md)
+
+The demo is published from the checked main-branch build. Known
 limitation: the 1.7B conversion can miss simple plain-text instructions even
 when its small structured-output control passes. The experimental source-build
 recipe has not been freshly rebuilt end to end. Raw diagnostic exports are
@@ -111,7 +113,9 @@ npm run build
 Schema, lifecycle and manifest tests do not establish GPU compatibility.
 Real-browser acceptance must separately record the exact bundle, runtime,
 artifact identity, hardware scope and both successful and failed checks.
-A hosted demo and practical article will be linked after verification.
+The Pages deployment uses only the checked static dist directory. Raw run
+exports stay outside the published source and site. The practical article
+remains a draft until it is deliberately posted.
 
 ## License
 
