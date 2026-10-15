@@ -46,6 +46,8 @@ function controls() {
 function describe() {
   const model = chosen();
   byId('requirements').textContent = `${model.download} download · ${model.memory} · shader-f16 · 4,096-token context`;
+  byId('limitation').textContent = model.limitation ?? '';
+  byId('limitation').hidden = !model.limitation;
   byId('prepare').textContent = `Prepare ${model.label.split(' · ')[0]} (${model.download})`;
 }
 modelInput.addEventListener('change', () => { byId('answer').textContent = ''; describe(); });

@@ -5,10 +5,12 @@ A small browser demo and reusable tools for the public **EuroLLM 1.7B** and
 or inference server. After you choose Prepare, model files download from
 Hugging Face and prompts run locally in your browser.
 
-**Status:** publication candidate. Fresh standalone browser acceptance and
-public deployment are pending. The model artifacts were published previously;
-this candidate is not yet a newly verified release. The source-build recipe
-is experimental and has not been freshly rebuilt end to end.
+**Status:** source publication candidate with local verification. The hosted
+demo and detailed compatibility report await publication approval. Known
+limitation: the 1.7B conversion can miss simple plain-text instructions even
+when its small structured-output control passes. The experimental source-build
+recipe has not been freshly rebuilt end to end. Raw diagnostic exports are
+kept local and are not included in this source package.
 
 ## Try locally
 

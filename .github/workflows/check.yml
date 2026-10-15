@@ -1,4 +1,4 @@
-name: Check and publish demo
+name: Check toolkit
 on:
   push:
     branches: [main]
@@ -7,7 +7,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: pages-${{ github.ref }}
+  group: check-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   check:
@@ -24,20 +24,3 @@ jobs:
       - run: npm run build
         env:
           VITE_TOOLKIT_REVISION: ${{ github.sha }}
-      - uses: actions/upload-pages-artifact@v4
-        if: github.event_name != 'pull_request'
-        with:
-          path: dist
-  deploy:
-    if: github.event_name != 'pull_request'
-    needs: check
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/deploy-pages@v4
-        id: deployment

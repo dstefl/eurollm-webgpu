@@ -3,7 +3,8 @@ export const RUNTIME_VERSION = '0.2.84';
 export const MODELS = Object.freeze([
   {
     id: 'EuroLLM-1.7B-Instruct-q4f16_1-MLC',
-    label: 'EuroLLM 1.7B',
+    label: 'EuroLLM 1.7B · experimental',
+    limitation: 'In our recorded check this conversion missed a simple instruction, although the small JSON check passed. Inspect its replies carefully; structured output is not proof of language quality.',
     repo: 'dstefl/EuroLLM-1.7B-Instruct-q4f16_1-MLC',
     revision: 'db971a4acc99fa38b3d29c899e9de3ad642dd1c4',
     download: 'about 0.9 GB',
