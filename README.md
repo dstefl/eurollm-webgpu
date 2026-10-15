@@ -5,7 +5,7 @@ A small browser demo and reusable tools for the public **EuroLLM 1.7B** and
 or inference server. After you choose Prepare, model files download from
 Hugging Face and prompts run locally in your browser.
 
-**Status:** source publication candidate with local verification. The hosted
+**Status:** public source with local verification. The hosted
 demo and detailed compatibility report await publication approval. Known
 limitation: the 1.7B conversion can miss simple plain-text instructions even
 when its small structured-output control passes. The experimental source-build
@@ -119,3 +119,12 @@ Toolkit code is licensed under **Apache 2.0**; see LICENSE and NOTICE.
 Original EuroLLM weights remain with the UTTER project under their stated
 license. WebLLM, TVM, MLC and other dependencies retain their licenses and
 attribution. This project is not affiliated with or endorsed by those projects.
+
+
+## Model-card updates
+
+[Prepared model cards](docs/model-cards/) replace the old private build links
+with this public toolkit, pin artifact URLs and describe experimental limits.
+They are proposed replacements, not live Hub-card updates. This environment
+has no authenticated Hugging Face publishing session. No model files or
+model configuration are changed by these documents.
