@@ -1,0 +1,8 @@
+EuroLLM WebGPU toolkit
+Copyright 2026 EuroLLM WebGPU contributors
+
+Conversion tooling and browser demonstration prepared for Wattburg.
+Source model authors: UTTER project / EuroLLM consortium.
+Inference runtime: MLC AI WebLLM, MLC-LLM and TVM projects.
+This project is not affiliated with or endorsed by those projects.
+Individual upstream software and models retain their license and attribution.

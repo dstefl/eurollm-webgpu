@@ -1,0 +1,21 @@
+:root { font-family: system-ui, sans-serif; color: #203d3b; background: #f6f2e9; font-synthesis: none; }
+body { margin: 0; }
+main { max-width: 760px; padding: 3rem 1.2rem; margin: auto; }
+.eyebrow { color: #576d67; letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.12; margin: 1rem 0; }
+h2 { font-size: 1.2rem; margin-top: 0; }
+.intro { font-size: 1.1rem; line-height: 1.6; max-width: 42rem; }
+section { background: #fffdf8; border: 1px solid #d8ded5; border-radius: 1rem; padding: 1.4rem; margin: 1.2rem 0; }
+label { display: block; font-size: .9rem; font-weight: 600; margin: .6rem 0; }
+select, textarea, button { font: inherit; box-sizing: border-box; }
+select, textarea { width: 100%; border: 1px solid #9daea5; border-radius: .5rem; padding: .7rem; background: #fff; color: inherit; }
+textarea { resize: vertical; }
+.actions { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1rem; }
+button { min-height: 44px; border: 1px solid #245d58; border-radius: .55rem; padding: .65rem 1rem; background: #245d58; color: #fff; cursor: pointer; }
+button:disabled { opacity: .5; cursor: default; }
+button:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible { outline: 3px solid #bf870f; outline-offset: 3px; }
+.note, footer { font-size: .86rem; line-height: 1.6; color: #52645d; }
+#status, #answer { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.6; }
+a { color: #245d58; }
+@media (max-width: 420px) { main { padding-top: 1.6rem; } section { padding: 1rem; } .actions > button { flex: 1 1 100%; } }
+@media (forced-colors: active) { button { border: 1px solid ButtonText; } }

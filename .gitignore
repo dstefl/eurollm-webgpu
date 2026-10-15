@@ -1,0 +1,13 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+*.local
+*.pem
+.env*
+eurollm-src/
+build-*/
+*.wasm
+*.bin
+*.safetensors
+eurollm-run-evidence*.json
