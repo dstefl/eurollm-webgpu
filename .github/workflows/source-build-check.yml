@@ -27,7 +27,6 @@ jobs:
       MLC_LLM_REF: 2008fe8343e1f40ef89ee57b9287aebcf1b86c98
       QUANTIZATION: q4f16_1
       CONV_TEMPLATE: chatml
-      WORKDIR: ${{ runner.temp }}/eurollm-source-check
     steps:
       - uses: actions/checkout@v6
         with:
@@ -39,7 +38,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test ! -e "$WORKDIR"
+          task_workdir="$RUNNER_TEMP/eurollm-source-check"
+          test ! -e "$task_workdir"
+          printf 'WORKDIR=%s\n' "$task_workdir" >> "$GITHUB_ENV"
           df -h "$RUNNER_TEMP"
           free -h
           command -v rustc cargo make c++ git curl node npm
