@@ -18,6 +18,17 @@ jobs:
         with:
           node-version: '22'
           cache: npm
+      - name: Validate every workflow including manual checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          task_archive="$RUNNER_TEMP/eurollm-actionlint.tar.gz"
+          task_tools="$RUNNER_TEMP/eurollm-actionlint"
+          curl --fail --location --silent --show-error https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz -o "$task_archive"
+          printf '%s  %s\n' '8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8' "$task_archive" | sha256sum --check -
+          mkdir "$task_tools"
+          tar -xzf "$task_archive" -C "$task_tools" actionlint
+          "$task_tools/actionlint" -color
       - run: npm ci --no-audit --no-fund
       - run: npm test
       - run: bash -n scripts/build-eurollm.sh
