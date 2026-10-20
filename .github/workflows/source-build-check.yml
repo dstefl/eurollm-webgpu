@@ -1,0 +1,113 @@
+name: Check source recipe without publication
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nonpublishing-source-check
+  cancel-in-progress: false
+
+jobs:
+  source-check:
+    if: github.event.repository.private == false
+    # Standard public-repository runner, separate from Wattburg's shared hosts.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      JOBS: '2'
+      CMAKE_BUILD_PARALLEL_LEVEL: '2'
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+      MODEL_REPO: utter-project/EuroLLM-1.7B-Instruct
+      MODEL_REVISION: a25c7fa65fc2a644e6270b8940dbe295b51da681
+      MLC_LLM_REF: 2008fe8343e1f40ef89ee57b9287aebcf1b86c98
+      QUANTIZATION: q4f16_1
+      CONV_TEMPLATE: chatml
+      WORKDIR: ${{ runner.temp }}/eurollm-source-check
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Check available environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$WORKDIR"
+          df -h "$RUNNER_TEMP"
+          free -h
+          command -v rustc cargo make c++ git curl node npm
+          bash -n scripts/build-eurollm.sh
+      - name: Install Linux build prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -q
+          sudo apt-get install -y --no-install-recommends build-essential llvm-18-dev clang-18 libncurses-dev libedit-dev libxml2-dev libzstd-dev libssl-dev zlib1g-dev time
+          llvm-config-18 --version
+      - name: Build the published source recipe
+        id: compile
+        timeout-minutes: 150
+        shell: bash
+        run: bash scripts/build-eurollm.sh
+      - name: Validate generated files without inference
+        id: validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import assert from 'node:assert/strict';
+          import crypto from 'node:crypto';
+          const root = path.join(process.env.WORKDIR, 'outputs');
+          const wasmFiles = fs.readdirSync(root).filter(name => name.endsWith('-webgpu.wasm'));
+          assert.equal(wasmFiles.length, 1, 'One compiled model library required');
+          const wasm = fs.readFileSync(path.join(root, wasmFiles[0]));
+          assert.ok(WebAssembly.validate(wasm), 'Generated WASM must validate');
+          const directories = fs.readdirSync(root, { withFileTypes: true }).filter(entry => entry.isDirectory());
+          assert.equal(directories.length, 1, 'One quantized model output required');
+          const model = path.join(root, directories[0].name);
+          const config = JSON.parse(fs.readFileSync(path.join(model, 'mlc-chat-config.json'), 'utf8'));
+          assert.equal(config.quantization, process.env.QUANTIZATION);
+          const index = JSON.parse(fs.readFileSync(path.join(model, 'ndarray-cache.json'), 'utf8'));
+          assert.ok(Array.isArray(index.records) && index.records.length > 0);
+          let weightBytes = 0;
+          for (const record of index.records) {
+            assert.equal(typeof record.dataPath, 'string');
+            const file = path.resolve(model, record.dataPath);
+            assert.ok(file.startsWith(model + path.sep), 'Tensor path must remain in its output');
+            const stat = fs.statSync(file);
+            assert.ok(stat.isFile() && stat.size > 0);
+            weightBytes += stat.size;
+          }
+          const summary = {
+            sourceRevision: process.env.MODEL_REVISION,
+            compilerRevision: process.env.MLC_LLM_REF,
+            quantization: config.quantization,
+            weightFiles: index.records.length,
+            weightBytes,
+            wasmBytes: wasm.length,
+            wasmSha256: crypto.createHash('sha256').update(wasm).digest('hex'),
+            wasmValid: true,
+            gpuInferenceValidated: false,
+            generatedModelArtifactsPublished: false,
+          };
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, '\n```json\n' + JSON.stringify(summary, null, 2) + '\n```\n');
+          console.log(JSON.stringify(summary));
+          JS
+      - name: Record bounded scope
+        if: always()
+        env:
+          BUILD_OUTCOME: ${{ steps.compile.outcome }}
+          VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
+        shell: bash
+        run: |
+          printf '\nSource-recipe build: %s. Output validation: %s.\n' "$BUILD_OUTCOME" "$VALIDATE_OUTCOME" >> "$GITHUB_STEP_SUMMARY"
+          printf 'This check does not run a GPU/browser inference test. Generated weights and WASM stay in the disposable runner; there is no artifact upload, model-hub credential, release or deployment step.\n' >> "$GITHUB_STEP_SUMMARY"

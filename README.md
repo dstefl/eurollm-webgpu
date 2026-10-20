@@ -91,6 +91,15 @@ Validate any new compiled library with actual shader compilation, plain chat,
 structured output and recovery on real GPU hardware before publishing it.
 The recipe uploads nothing.
 
+The manual [source-recipe check](.github/workflows/source-build-check.yml)
+uses a fresh standard Ubuntu 24.04 runner on public repositories, including
+public forks. It pins the public 1.7B source revision and compiler, limits
+compiler parallelism to two jobs, and checks generated configuration, weight
+files and WASM validity. Inspect its actual run summary for the outcome.
+Generated model binaries remain in the disposable runner. This check does
+not establish GPU/browser compatibility; the hardware checks above are still
+required before publishing a newly compiled model.
+
 ## Usage counters
 
 ~~~sh
