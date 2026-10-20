@@ -129,6 +129,10 @@ attribution. This project is not affiliated with or endorsed by those projects.
 
 [Prepared model cards](docs/model-cards/) replace the old private build links
 with this public toolkit, pin artifact URLs and describe experimental limits.
-They are proposed replacements, not live Hub-card updates. This environment
-has no authenticated Hugging Face publishing session. No model files or
-model configuration are changed by these documents.
+Both live Hub cards now link this public toolkit and demo. The reviewed README
+updates were published on 20 October 2026:
+[1.7B publication](https://huggingface.co/dstefl/EuroLLM-1.7B-Instruct-q4f16_1-MLC/commit/23c561f092d3c2cdceab3c6daf204355e80ff816)
+and [9B publication](https://huggingface.co/dstefl/EuroLLM-9B-Instruct-2512-q4f16_1-MLC/commit/aa78a6639371452ba5f11253a125548e0a8b93d9).
+The published text matches these reviewed copies. All other model-repository
+files, including weights, compiled libraries, configuration and licenses,
+remain unchanged. This card update does not validate a new source rebuild.
